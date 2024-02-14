@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CategoryController;
@@ -19,7 +20,13 @@ use App\Http\Controllers\dashboardController;
 */
 
 Route::view('/','index');
+
 Route::view('/login','auth.form');
+
+Route::post('/login', [AuthController::class, 'login']);
+
+Route::post('/register', [AuthController::class, 'register']);
+
 Route::get('/dashboard', [dashboardController::class, 'index']);
 
 Route::get('/clients', [ClientController::class, 'index']);
