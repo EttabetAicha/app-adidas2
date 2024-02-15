@@ -42,7 +42,19 @@
                     <input type="text" placeholder="Search"> <i class="uil uil-search"></i> <i
                         class="uil uil-times-circle"></i>
                 </div>
-                <a href="{{ url('/login') }}"><i class="uil uil-user"></i></a>
+                <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
+                
+                @if(session('user_id'))
+                    <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        <i class="uil uil-sign-out-alt"></i>
+                    </a>
+                @else
+                    <a href="{{ url('/login') }}"><i class="uil uil-user"></i></a>
+                @endif
+                
+                
                 <i class="uil uil-heart"></i>
                 <i class="uil uil-shopping-bag"></i>
             </div>
@@ -51,13 +63,16 @@
     <main>
         <section class="main">
             <div class="container">
-                <h1>THE BACK TO SCHOOL SHOP</h1> 
+                <h1>THE BACK TO SCHOOL SHOP</h1>
                 <p>School style that’s uniquely you.</p>
                 <div class="shop">
-                    <div class="shop-item"><a href="" class="shop-now">SHOP MEN <i class="uil uil-arrow-right"></i></a>
+                    <div class="shop-item"><a href="" class="shop-now">SHOP MEN <i
+                                class="uil uil-arrow-right"></i></a>
                     </div>
-                    <div class="shop-item"><a href="" class="shop-now">SHOP WOMEN <i class="uil uil-arrow-right"></i></a></div>
-                    <div class="shop-item"><a href="" class="shop-now">SHOP KIDS <i class="uil uil-arrow-right"></i></a>
+                    <div class="shop-item"><a href="" class="shop-now">SHOP WOMEN <i
+                                class="uil uil-arrow-right"></i></a></div>
+                    <div class="shop-item"><a href="" class="shop-now">SHOP KIDS <i
+                                class="uil uil-arrow-right"></i></a>
                     </div>
                 </div>
             </div>

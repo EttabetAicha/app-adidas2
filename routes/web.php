@@ -7,6 +7,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\dashboardController;
+use App\Http\Controllers\ResetPasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +27,8 @@ Route::view('/login','auth.form');
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::post('/register', [AuthController::class, 'register']);
+
+Route::post('/logout', [AuthController::class, 'logout']);
 
 Route::get('/dashboard', [dashboardController::class, 'index']);
 
@@ -86,3 +89,9 @@ Route::get('/sales/{id}/edit', [App\Http\Controllers\SaleController::class, 'edi
 Route::patch('/sales/{id}', [App\Http\Controllers\SaleController::class, 'update']);
  
 Route::delete('/sales/{id}', [App\Http\Controllers\SaleController::class, 'destroy']);
+////////////////////////////////////////////////////////////////////////////////////////////
+Route::view('/password/reset', 'auth.rest');
+
+Route::post('/password/email', [ResetPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+
+Route::post('/password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
