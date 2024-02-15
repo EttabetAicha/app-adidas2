@@ -16,7 +16,7 @@ class ResetPasswordMail1 extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct( public $token )
+    public function __construct( public $token,public $users)
     {
         //
     }
@@ -38,6 +38,10 @@ class ResetPasswordMail1 extends Mailable
     {
         return new Content(
             markdown: 'emails.reset_password',
+            with: [
+                'token' => $this->token,
+                'users' => $this->users,
+            ],
         );
     }
 

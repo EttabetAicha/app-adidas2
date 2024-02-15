@@ -1,12 +1,12 @@
 <x-mail::message>
-# Introduction
+Bonjour  {{ $users->name }}
 
-The body of your message.
+Your adidas password can be reset by clicking the button below. 
+If you did not request a new password, please ignore this email.
 
-<x-mail::button :url="'localhost:8000/new/password/{{$token}}'">
+<x-mail::button :url="url('/new/password/' . $token)">
 click here to reset your password
 </x-mail::button>
-<p>localhost:8000/new/password/{{$token}}</p>
 Thanks,<br>
-{{ config('app.name') }}
+Adidas
 </x-mail::message>

@@ -90,7 +90,7 @@ Route::patch('/sales/{id}', [App\Http\Controllers\SaleController::class, 'update
  
 Route::delete('/sales/{id}', [App\Http\Controllers\SaleController::class, 'destroy']);
 ////////////////////////////////////////////////////////////////////////////////////////////
-Route::view('/password/reset', [ResetPasswordController::class, 'displayform']);
+Route::view('/password/change','auth.rest');
 
 Route::post('/password/email', [ResetPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
 Route::get('/new/password/{token}',[ResetPasswordController::class, 'changepswrd'] );

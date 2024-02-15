@@ -38,7 +38,7 @@
 			<span>or use your account</span>
 			<input type="email" name="email" placeholder="Email" required />
 			<input type="password" name="password" placeholder="Password" required />
-			<a href="{{url('/password/reset')}}">Forgot your password?</a>
+			<a href="{{url('/password/change')}}">Forgot your password?</a>
 			<button type="submit">Sign In</button>
 		</form>
 	</div>
