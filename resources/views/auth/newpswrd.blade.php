@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forgot Password</title>
+    <title>change Password</title>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
@@ -28,25 +28,24 @@
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <div class="text-center">
-                            <h3><i class="fa fa-lock fa-4x"></i></h3>
-                            <h2 class="text-center">Forgot Password?</h2>
-                            <p>You can reset your password here.</p>
+                            <h3><i class="fa fa-password fa-4x"></i></h3>
+                            <h2 class="text-center">change your Password?</h2>
+                            <p>You can change  your password here.</p>
                             <div class="panel-body">
-                                <form id="reset-password-form" role="form" autocomplete="off" class="form" method="post" action="{{ url('/password/email') }}">
+                                <form id="reset-password-form" role="form" autocomplete="off" class="form" method="post" action="{{ url('/password/reset') }}">
                                     @csrf
+                                    <input type="hidden" value="{{$token->token}}" name="token" >
                                     <div class="form-group">
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="glyphicon glyphicon-envelope color-blue"></i></span>
-                                            <input id="email" name="email" placeholder="Email Address" class="form-control" type="email" aria-describedby="email-error">
+                                            <input id="password" name="password" placeholder="new password" class="form-control" type="text" aria-describedby="password-error">
                                         </div>
-                                        <div id="email-error" class="error" style="display: none;">Invalid email address</div>
+                                        <div id="email-error" class="error" style="display: none;">Invalid password address</div>
                                     </div>
                                     <div class="form-group">
                                         <button type="submit" name="recover-submit" class="btn btn-lg btn-primary btn-block">Reset Password</button>
                                     </div>
-                                    <div class="alert alert-success" id="success-message" style="display: none;" role="alert">
-                                        Password reset link sent to your email.
-                                    </div>
+                                    
                                     <div class="alert alert-danger" id="error-message" style="display: none;" role="alert">
                                         An error occurred. Please try again later.
                                     </div>

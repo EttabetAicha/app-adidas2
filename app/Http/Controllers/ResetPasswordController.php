@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\ResetPasswordMail;
+use App\Mail\ResetPasswordMail1;
+use App\Models\Password_reset_token;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -11,6 +12,25 @@ use Illuminate\Support\Facades\Mail;
 class ResetPasswordController extends Controller
 {
     // Submit email for password reset
+    public function displayform( ){
+        // $token = Password_reset_token::where('token', $token)->first();
+       
+            return view('auth.rest');
+        // }
+        // else{
+        //     abort(403);
+        // }
+        
+    }
+    public function changepswrd(string $token){
+        $token = Password_reset_token::where('token', $token)->first();
+        if($token){
+            return view('auth.newpswrd',compact('token'));
+        }
+        else{
+            abort(403);
+        }
+    }
     public function sendResetLinkEmail(Request $request)
     {
         $request->validate([
@@ -20,19 +40,25 @@ class ResetPasswordController extends Controller
         // Find user by email
         $user = User::where('email', $request->email)->first();
 
-        // If user not found, return with error
         if (!$user) {
             return redirect()->back()->withErrors(['email' => 'User not found']);
         }
-
-        // Generate unique token
         $token = md5(uniqid(rand(), true)); 
-
-        // Update user's password reset token
-        $user->update(['password_reset_token' => $token]);
-
-        // Send password reset email
-        Mail::to($user->email)->send(new ResetPasswordMail($user));
+        $find=Password_reset_token::where('email' , $user->email)->first();
+        if(!$find){
+            Password_reset_token::create([
+                'email' => $user->email,
+                'token' => $token,
+                'created_at' => now(),
+            ]);
+        }
+        else{
+            $find->where('email' , $user->email)->update([
+                'token' => $token,
+            ]);
+         
+        }
+        Mail::to($user->email)->send(new ResetPasswordMail1($token));
 
         return redirect()->back()->with('success', 'Password reset link sent to your email.');
     }
@@ -41,26 +67,17 @@ class ResetPasswordController extends Controller
     public function reset(Request $request)
     {
         $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|min:8',
-            'password_confirmation' => 'required|same:password',
-            'token' => 'required',
-        ]);
-
-        // Find user by email and password reset token
-        $user = User::where('email', $request->email)
-                    ->where('password_reset_token', $request->token)
-                    ->first();
-
-        // If user not found or token is invalid, return with error
+            'password' => 'required|min:8',    
+            ]);
+           
+        $user = Password_reset_token::where('token', $request->token)->first();
         if (!$user) {
             return redirect()->back()->withErrors(['token' => 'Invalid token']);
         }
-
+        $email=$user['email'];  
         // Update user's password and reset token
-        $user->update([
+        User::where('email',$email)->first()->update([
             'password' => Hash::make($request->password),
-            'password_reset_token' => null,
         ]);
 
         // Redirect to login page with success message
