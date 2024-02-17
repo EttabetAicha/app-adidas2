@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
-use App\Models\Categorie;
-use App\Models\Category;
 use App\Models\Products;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -17,18 +16,18 @@ class UserController extends Controller
         return view('users', compact('users'));
     }
 
-    public function userDashboard()
+    public function indexUser()
     {
-        $categorys = Category::orderBy('created_at', 'desc')->limit(4)->get();
-        $products = Products::orderBy('created_at', 'desc')->limit(4)->get();
-        return view("user.index", compact('products', 'categorys'));
+        $categories = Category::latest()->limit(4)->get();
+        $products = Products::latest()->limit(4)->get();
+        return view("user.index", compact('products', 'categories'));
     }
 
     public function getAllProduct()
     {
-        $categorys = Category::orderBy('created_at', 'desc')->get();
-        $products = Products::orderBy('created_at', 'desc')->paginate(9);
-        return view("user.allItems", compact('products', 'categorys'));
+        $categories = Category::latest()->get();
+        $products = Products::latest()->paginate(9);
+        return view("user.allItems", compact('products', 'categories'));
     }
 
     public function searchProduct($search)
@@ -56,5 +55,25 @@ class UserController extends Controller
         $price = explode('-', $search);
         $products = Products::where('price', '>', $price[0])->where('price', '<', $price[1])->get();
         return view("user.search", compact('products'));
+    }
+
+    public function resetPassword($token)
+    {
+        $token1 = session('token_reset');
+        if ($token == $token1) {
+            return view('auth.resetPass');
+        }
+    }
+
+    public function resetMyPassword(Request $request)
+    {
+        $validatedData = $request->validate([
+            'password' => 'required',
+        ]);
+        $password = Hash::make($validatedData['password']);
+        User::where('email', session('email_reset'))->update([
+            'password' => $password,
+        ]);
+        return view("auth.login");
     }
 }
