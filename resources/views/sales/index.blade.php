@@ -9,6 +9,9 @@
                         <h2 class="text-center">Sales Management</h2>
                     </div>
                     <div class="card-body">
+                        <a href="{{ url('/dashboard') }}" class="btn btn-warning mb-3" title="Add New category">
+                            <i class="fa fa-plus" aria-hidden="true"></i> <- back  
+                        </a>
                         <a href="{{ url('/sales/create') }}" class="btn btn-success mb-3" title="Add New Sale">
                             <i class="fa fa-plus" aria-hidden="true"></i> Add New
                         </a>

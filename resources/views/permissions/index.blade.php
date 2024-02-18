@@ -6,8 +6,11 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">Permissions</div>
-
+   
                 <div class="card-body">
+                    <a href="{{ url('/dashboard') }}" class="btn btn-warning mb-3" title="Add New category">
+                        <i class="fa fa-plus" aria-hidden="true"></i> <- back  
+                    </a>
                     <div class="mb-3">
                         <a href="{{ route('permissions.create') }}" class="btn btn-primary">Add Permission</a>
                     </div>
