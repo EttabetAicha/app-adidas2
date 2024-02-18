@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Route;
 
 class AddPermission extends Command
 {
-    /**
+     /**
      * The name and signature of the console command.
      *
      * @var string
@@ -22,50 +22,38 @@ class AddPermission extends Command
      *
      * @var string
      */
-    protected $description = 'Generate permissions based on existing routes';
+    protected $description = 'Command description';
 
     /**
      * Execute the console command.
      */
     public function handle()
     {
-        // Get all registered routes
         $routes = Route::getRoutes();
-
-        // Sync routes with database
-        foreach ($routes as $route) {
+        // RouteModel::truncate();
+        // Permission::truncate();
+        foreach($routes as $route){
             $uri = $route->uri();
-            if (str_contains($uri, '_') || str_contains($uri, 'api') || str_contains($uri, 'csrf')) {
-                continue;
-            }
-
-            RouteModel::updateOrCreate(
-                ['name' => $uri],
-                ['name' => $uri]
-            );
-        }
-
-        if (!Role::where('name', 'Admin')->exists()) {
-            Role::create(["name" => "Admin"]);
+            if(strstr($uri, '_')) continue;
+            if(strstr($uri, 'api')) continue;
+            if(strstr($uri, 'csrf')) continue;
+            $routeModel =  new RouteModel();
+            $routeModel->name = $uri;
+            $routeModel->save();  
         }
         
-        if (!Role::where('name', 'User')->exists()) {
-            Role::create(["name" => "User"]);
+        if(Role::count()==0){
+            Role::create(["name"=>"Admin"]);
+            Role::create(["name"=>"User"]);
+            Role::create(["name"=>"Guest"]);
         }
-        
-        if (!Role::where('name', 'Guest')->exists()) {
-            Role::create(["name" => "Guest"]);
-        }
-        // Create permissions for Admin role
-        $adminRole = Role::where('name', 'Admin')->first();
-        $routes = RouteModel::all();
-        foreach ($routes as $route) {
-            Permission::updateOrCreate([
-                "route_id" => $route->id,
-                "role_id" => $adminRole->id
-            ]);
-        }
-
-        $this->info('Permissions generated successfully.');
+        // $modelRoutes = RouteModel::all();
+        // $adminRole = Role::where('name', 'Admin')->first();
+        // foreach ($modelRoutes as $route) {
+        //     Permission::create([
+        //         "route_id" => $route->id,
+        //         "role_id" => $adminRole->id
+        //     ]);
+        // }
     }
 }

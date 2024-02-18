@@ -7,6 +7,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\dashboardController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ResetPasswordController;
 
 /*
@@ -29,10 +30,11 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
 
 Route::post('/logout', [AuthController::class, 'logout']);
+////////////////////////////////////////////////////////////////////////////////
 
 Route::get('/dashboard', [dashboardController::class, 'index']);
 
-Route::get('/clients', [ClientController::class, 'index']);
+Route::get('/clients', [ClientController::class, 'index'])->name('clients.index');
 
 Route::get('/clients/create', [ClientController::class, 'create'])->name('clients.create');
 
@@ -43,11 +45,12 @@ Route::get('/clients/{id}', [ClientController::class, 'show']);
 Route::get('/clients/{id}/edit', [ClientController::class, 'edit']);
 
 Route::patch('/clients/{id}', [ClientController::class, 'update']);
- 
+
 Route::delete('/clients/{id}', [ClientController::class, 'destroy']);
+
 ////////////////////////////////////////////////////////////////////////////////
 
-Route::get('/category', [CategoryController::class, 'index']);
+Route::get('/category', [CategoryController::class, 'index'])->name('categories.index');
 
 Route::get('/category/create', [CategoryController::class, 'create'])->name('categories.create');
 
@@ -58,12 +61,13 @@ Route::get('/category/{id}', [CategoryController::class, 'show']);
 Route::get('/category/{id}/edit', [CategoryController::class, 'edit']);
 
 Route::patch('/category/{id}', [CategoryController::class, 'update']);
- 
-Route::delete('/category/{id}', [CategoryController::class, 'destroy']);
-///////////////////////////////////////////////////////////////////////////////////
-Route::get('/products', [ProductController::class, 'index']);
 
-Route::get('/products/create', [ProductController::class, 'create'])->name('categories.create');
+Route::delete('/category/{id}', [CategoryController::class, 'destroy']);
+
+///////////////////////////////////////////////////////////////////////////////////
+Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+
+Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
 
 Route::post('/products', [ProductController::class, 'store']);
 
@@ -76,7 +80,7 @@ Route::patch('/products/{id}', [ProductController::class, 'update']);
 Route::delete('/products/{id}', [ProductController::class, 'destroy']);
 //////////////////////////////////////////////////////////////////////////////////////
 
-Route::get('/sales', [App\Http\Controllers\SaleController::class, 'index']);
+Route::get('/sales', [App\Http\Controllers\SaleController::class, 'index'])->name('sales.index');
 
 Route::get('/sales/create', [App\Http\Controllers\SaleController::class, 'create'])->name('sales.create');
 
@@ -93,6 +97,12 @@ Route::delete('/sales/{id}', [App\Http\Controllers\SaleController::class, 'destr
 Route::view('/password/change','auth.rest');
 
 Route::post('/password/email', [ResetPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+
 Route::get('/new/password/{token}',[ResetPasswordController::class, 'changepswrd'] );
 
 Route::post('/password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
+///////////////////////////////////////////////////////////////////////////////////////////////
+Route::get('/permission', [PermissionController::class, 'index'])->name('permissions.index');
+Route::get('/permission/create', [PermissionController::class, 'create'])->name('permissions.create');
+Route::post('/permission/store', [PermissionController::class, 'store'])->name('permissions.store');
+Route::delete('/permission/{permission}', [PermissionController::class, 'destroy'])->name('permissions.destroy');

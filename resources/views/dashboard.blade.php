@@ -15,17 +15,20 @@
             <hr class="my-4">
             <p>Choose an option below to get started:</p>
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-4 m-3">
                     <a href="{{ url('/category') }}" class="btn btn-primary btn-lg btn-block">Manage Categories</a>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4 m-3">
                     <a href="{{ url('/products') }}" class="btn btn-primary btn-lg btn-block">Manage Products</a>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4 m-3">
                     <a href="{{ url('/clients') }}" class="btn btn-primary btn-lg btn-block">Manage Clients</a>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4 m-3">
                     <a href="{{ url('/sales') }}" class="btn btn-primary btn-lg btn-block">Manage Sales</a>
+                </div>
+                <div class="col-md-4 m-3">
+                    <a href="{{ url('/pesrmission') }}" class="btn btn-primary btn-lg btn-block">Manage permission</a>
                 </div>
             </div>
         </div>

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreign('route_id')
             ->references('id')->on('routes')
             ->onDelete('cascade');
+            $table->engine = 'InnoDB';
             $table->timestamps();
         });
     }
