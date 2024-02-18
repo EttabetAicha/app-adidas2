@@ -10,18 +10,25 @@
                     </div>
                     
                     <div class="card-body">
-                        <a href="{{ url('/dashboard') }}" class="btn btn-warning mb-3" title="Add New category">
-                            <i class="fa fa-plus" aria-hidden="true"></i> <- back  
+                        <a href="{{ url('/dashboard') }}" class="btn btn-warning mb-3" title="Back to Dashboard">
+                            <i class="fa fa-arrow-left" aria-hidden="true"></i> Back
                         </a>
                         <a href="{{ url('/products/create') }}" class="btn btn-success mb-3" title="Add New Product">
                             <i class="fa fa-plus" aria-hidden="true"></i> Add New
                         </a>
-
+                        <form action="{{ route('search.product') }}" method="GET">
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" placeholder="Search Product" name="search">
+                                <button class="btn btn-primary" type="submit">Search</button>
+                            </div>
+                        </form>
+                        
+                        
+                        
                         <div class="table-responsive">
                             <table class="table table-bordered table-striped">
                                 <thead class="table-dark">
                                     <tr>
-
                                         <th>Image</th>
                                         <th>Name</th>
                                         <th>Description</th>
@@ -33,7 +40,6 @@
                                 <tbody>
                                     @foreach ($products as $product)
                                         <tr>
-
                                             <td>
                                                 <img src="{{ asset('assets/' . $product->images) }}"
                                                     alt="Product Image">
@@ -59,9 +65,13 @@
                                             </td>
                                         </tr>
                                     @endforeach
-
                                 </tbody>
                             </table>
+                        </div>
+
+                        <!-- Pagination Links -->
+                        <div class="d-flex justify-content-center">
+                            {{ $products->links() }}
                         </div>
                     </div>
                 </div>

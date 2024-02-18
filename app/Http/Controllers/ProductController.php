@@ -8,10 +8,11 @@ use App\Models\Category;
 
 class ProductController extends Controller
 {
-    public function index()
-    {
-        $products = Products::with('category')->get();
-        return view('products.index')->with('products', $products);
+    public function index(Request $request)
+    { 
+        $search = $request->input('search', '');
+        $products = Products::simplePaginate(2);
+        return view('products.index',compact('search'))->with('products', $products);
     }
     
 
@@ -70,5 +71,33 @@ class ProductController extends Controller
     {
         Products::destroy($id);
         return redirect('products')->with('flash_message', 'Product deleted!');
+    }
+    public function searchProduct(Request $request)
+    {
+        $search = $request->input('search');
+        if ($search == "AllProductSearch") {
+            $products = Products::paginate(9);
+        } else {
+            $products = Products::where('product_name', 'like', "%$search%")->get();
+        }
+        return view("products.search", compact('products'));
+    }
+    
+
+    public function filterProduct($search)
+    {
+        if ($search == "All") {
+            $products = Products::paginate(9);
+        } else {
+            $products = Products::where('category_id', $search)->get();
+        }
+        return view("user.search", compact('products'));
+    }
+
+    public function searchProductPrice($search)
+    {
+        $price = explode('-', $search);
+        $products = Products::where('price', '>', $price[0])->where('price', '<', $price[1])->get();
+        return view("user.search", compact('products'));
     }
 }

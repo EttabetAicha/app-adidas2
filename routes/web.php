@@ -78,6 +78,10 @@ Route::get('/products/{id}/edit', [ProductController::class, 'edit']);
 Route::patch('/products/{id}', [ProductController::class, 'update']);
  
 Route::delete('/products/{id}', [ProductController::class, 'destroy']);
+
+
+
+Route::get('/searchProduct', [ProductController::class, 'searchProduct'])->name('search.product');
 //////////////////////////////////////////////////////////////////////////////////////
 
 Route::get('/sales', [App\Http\Controllers\SaleController::class, 'index'])->name('sales.index');
