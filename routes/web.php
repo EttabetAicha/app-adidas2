@@ -9,6 +9,7 @@ use App\Http\Controllers\SaleController;
 use App\Http\Controllers\dashboardController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ResetPasswordController;
+use App\Http\Middleware\Haspermission;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,9 +21,7 @@ use App\Http\Controllers\ResetPasswordController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
 Route::view('/','index');
-
 Route::view('/login','auth.form');
 
 Route::post('/login', [AuthController::class, 'login']);
@@ -30,6 +29,8 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
 
 Route::post('/logout', [AuthController::class, 'logout']);
+Route::middleware([Haspermission::class])->group(function () {
+
 ////////////////////////////////////////////////////////////////////////////////
 
 Route::get('/dashboard', [dashboardController::class, 'index']);
@@ -110,3 +111,4 @@ Route::get('/permission', [PermissionController::class, 'index'])->name('permiss
 Route::get('/permission/create', [PermissionController::class, 'create'])->name('permissions.create');
 Route::post('/permission/store', [PermissionController::class, 'store'])->name('permissions.store');
 Route::delete('/permission/{permission}', [PermissionController::class, 'destroy'])->name('permissions.destroy');
+});

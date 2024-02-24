@@ -47,13 +47,13 @@ class AddPermission extends Command
             Role::create(["name"=>"User"]);
             Role::create(["name"=>"Guest"]);
         }
-        // $modelRoutes = RouteModel::all();
-        // $adminRole = Role::where('name', 'Admin')->first();
-        // foreach ($modelRoutes as $route) {
-        //     Permission::create([
-        //         "route_id" => $route->id,
-        //         "role_id" => $adminRole->id
-        //     ]);
-        // }
+        $modelRoutes = RouteModel::all();
+        $adminRole = Role::where('name', 'Admin')->first();
+        foreach ($modelRoutes as $route) {
+            Permission::create([
+                "route_id" => $route->id,
+                "role_id" => $adminRole->id
+            ]);
+        }
     }
 }

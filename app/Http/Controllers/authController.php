@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
+
 
 class AuthController extends Controller
 {
@@ -53,7 +55,10 @@ class AuthController extends Controller
     }
     public function logout(Request $request)
     {
-        Session::forget('user');
+        Auth::logout();     
+        $request->session()->invalidate();
+        $request->session()->regenerateToken(); 
+    
         return redirect('/login');
     }
 }
